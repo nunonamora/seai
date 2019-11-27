@@ -18,12 +18,12 @@ address = 0x04
 #Slave Address 2
 address_2 = 0x05
 
-def ConvertStringToBytes(src): 
-  converted = [] 
-  for b in src: 
-    converted.append(ord(b)) 
- 
-  return converted</pre>
+
+def ConvertStringToBytes(src):
+    list = []
+    for i in src:
+        list.append(ord(i))
+    return list
 
 while True:
 	#Receives the data from the User
