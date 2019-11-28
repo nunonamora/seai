@@ -31,8 +31,7 @@ while True:
     BytesToSend = ConvertStringToBytes(data)
     bus.write_i2c_block_data(address, 0x00, BytesToSend)
     #bus.write_i2c_block_data(address_2, 0x00, BytesToSend)  
-    print("Sent " + address + " the " + data + " command.")
-    print("Sent " + address_2 + " the " + data + " command.")
+    
 
 
 #End of the Script
