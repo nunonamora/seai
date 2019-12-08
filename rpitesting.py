@@ -10,7 +10,7 @@ import os
 bus = smbus.SMBus(1)
 
 # I2C address of Arduino Slave
-i2c_address = 0x04
+#i2c_address = 0x04
 i2c_cmd = 0x01
 
 
@@ -21,14 +21,19 @@ def ConvertStringToBytes(src):
     return converted
 
 # send welcome message at start-up
-bytesToSend = ConvertStringToBytes("Hello Uno")
-bus.write_i2c_block_data(i2c_address,i2c_cmd, bytesToSend)
+#bytesToSend = ConvertStringToBytes("Hello Uno")
+#bus.write_i2c_block_data(i2c_address,i2c_cmd, bytesToSend)
 
 # loop to send message
 exit = False
 while not exit:
-    r = raw_input('Enter something, "q" to quit"')
+    device = raw_input('Qual o dispostivo a controlar:   ')
+    if(device == '1'):
+        i2c_address = 0x04
+
+    r = raw_input('Enter something, "q" to quit:   ')
     print(r)
+ 
     
     bytesToSend = ConvertStringToBytes(r)
     bus.write_i2c_block_data(i2c_address,i2c_cmd, bytesToSend)
