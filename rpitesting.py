@@ -1,19 +1,42 @@
-from time import sleep
-from smbus2 import SMBusWrapper
-address = 0x04
- 
-# Give the I2C device time to settle
-sleep(2)
- 
-while 1:
-    try:
-        with SMBusWrapper(1) as bus:
-            data1 = input("Enter the data to be sent : ")
-            bus.write_i2c_block_data(address, 0, data1)
-            print('Offset {}, data {}'.format(data1[0], data1[1]))
-            
-    except:
-        print(' Oops! Error')
+#have to run 'sudo apt-get install python-smbus'
+#in Terminal to install smbus
+import smbus
+import time
+import os
+
+# display system info
+
+
+bus = smbus.SMBus(1)
+
+# I2C address of Arduino Slave
+i2c_address = 0x04
+i2c_cmd = 0x01
+
+
+def ConvertStringToBytes(src):
+    converted = []
+    for b in src:
+        converted.append(ord(b))
+    return converted
+
+# send welcome message at start-up
+bytesToSend = ConvertStringToBytes("Hello Uno")
+bus.write_i2c_block_data(i2c_address,i2c_cmd, bytesToSend)
+
+# loop to send message
+exit = False
+while not exit:
+    r = raw_input('Enter something, "q" to quit"')
+    print(r)
     
-    # Decreasing delay may create more transmission errors.
-    sleep(0.0005)
+    bytesToSend = ConvertStringToBytes(r)
+    bus.write_i2c_block_data(i2c_address,i2c_cmd, bytesToSend)
+    
+    # delay 0.1 second
+    # with delay will cause error of:
+    # IOError: [Error 5] Input/output error
+    time.sleep(0.1)
+    
+    if r=='q':
+        exit=True
